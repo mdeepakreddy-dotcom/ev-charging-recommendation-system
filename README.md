@@ -30,7 +30,7 @@ Requirements: Java 21, Maven 3.9+, and Node.js/npm.
    npm run dev
    ```
 
-3. Open the Vite URL (normally `http://localhost:5173`), register an account, and explore the dashboard. The frontend defaults to `http://localhost:8080/api`; set `VITE_API_URL` to change it.
+3. Open the Vite URL (normally `http://localhost:5173`), register an account, and explore the dashboard. In development, Vite proxies `/api` to `http://localhost:8080`. If your API uses another port, set `VITE_API_PROXY_TARGET` in `frontend/.env.local` (for example `http://localhost:8081`) and restart Vite. For production, set `VITE_API_URL` to the hosted API base.
 
 The chatbot uses retrieval over the station catalog and an OpenAI-compatible chat-completions API. Set `AI_API_KEY` (and optionally `AI_API_URL`/`AI_MODEL`) in the backend environment to enable it. Without a key, the API reports that the assistant is not configured; it does not return a fake answer.
 
