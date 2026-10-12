@@ -20,7 +20,7 @@ function Home() {
   const [stationLoading, setStationLoading] = useState(true);
 
   const [locationStatus, setLocationStatus] =
-    useState("Location not connected");
+    useState("Using Hyderabad area (approximate)");
 
   const [currentLocation, setCurrentLocation] =
     useState(null);
@@ -28,6 +28,56 @@ function Home() {
   useEffect(() => {
     loadDashboardData();
   }, []);
+
+  useEffect(() => {
+    if (!selectedVehicle) {
+      return;
+    }
+
+    const controller = new AbortController();
+    const latitude = currentLocation?.latitude ?? 17.385;
+    const longitude = currentLocation?.longitude ?? 78.4867;
+    const maxRange = Number(selectedVehicle.maxRange || 0);
+    const connector = selectedVehicle.connectorType || "";
+    const params = new URLSearchParams({
+      latitude: String(latitude),
+      longitude: String(longitude),
+      battery: String(battery),
+      maxRange: String(maxRange),
+      connector,
+    });
+
+    async function loadRecommendations() {
+      setStationLoading(true);
+
+      try {
+        const response = await fetch(
+          `${API_URL}/stations/nearby?${params}`,
+          { signal: controller.signal }
+        );
+
+        if (!response.ok) {
+          throw new Error("Unable to load station recommendations.");
+        }
+
+        const data = await response.json();
+        setStations(Array.isArray(data.allStations) ? data.allStations : []);
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          console.error("Station recommendation error:", error);
+          setStations([]);
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setStationLoading(false);
+        }
+      }
+    }
+
+    loadRecommendations();
+
+    return () => controller.abort();
+  }, [battery, currentLocation, selectedVehicle]);
 
   async function loadDashboardData() {
     try {
@@ -37,60 +87,40 @@ function Home() {
         `${API_URL}/vehicles`
       );
 
-      if (vehicleResponse.ok) {
-        const vehicleData =
-          await vehicleResponse.json();
+      if (!vehicleResponse.ok) {
+        throw new Error("Unable to load vehicle information.");
+      }
 
-        const vehicleList = Array.isArray(vehicleData)
-          ? vehicleData
-          : vehicleData.vehicles || [];
+      const vehicleData =
+        await vehicleResponse.json();
 
-        setVehicles(vehicleList);
+      const vehicleList = Array.isArray(vehicleData)
+        ? vehicleData
+        : vehicleData.vehicles || [];
 
-        if (vehicleList.length > 0) {
-          setSelectedVehicle(vehicleList[0]);
-        }
+      setVehicles(vehicleList);
+
+      if (vehicleList.length > 0) {
+        setSelectedVehicle(vehicleList[0]);
+      } else {
+        setStationLoading(false);
       }
     } catch (error) {
       console.error(
         "Vehicle loading error:",
         error
       );
+      setStationLoading(false);
     } finally {
       setLoading(false);
     }
 
-    try {
-      setStationLoading(true);
-
-      const stationResponse = await fetch(
-        `${API_URL}/stations`
-      );
-
-      if (stationResponse.ok) {
-        const stationData =
-          await stationResponse.json();
-
-        const stationList = Array.isArray(stationData)
-          ? stationData
-          : stationData.stations || [];
-
-        setStations(stationList);
-      }
-    } catch (error) {
-      console.error(
-        "Station loading error:",
-        error
-      );
-    } finally {
-      setStationLoading(false);
-    }
   }
 
   function detectLocation() {
     if (!navigator.geolocation) {
       setLocationStatus(
-        "Geolocation is not supported"
+        "Using approximate Hyderabad location"
       );
       return;
     }
@@ -116,7 +146,7 @@ function Home() {
       },
       () => {
         setLocationStatus(
-          "Unable to access location"
+          "Using approximate Hyderabad location"
         );
       }
     );
@@ -141,25 +171,20 @@ function Home() {
       return null;
     }
 
-    const sorted = [...stations].sort(
-      (a, b) => {
+    const sorted = stations
+      .filter((station) => station.usable !== false)
+      .sort((a, b) => {
         const scoreA = Number(
-          a.score ??
-            a.recommendationScore ??
-            0
+          a.score ?? a.recommendationScore ?? 0
         );
-
         const scoreB = Number(
-          b.score ??
-            b.recommendationScore ??
-            0
+          b.score ?? b.recommendationScore ?? 0
         );
 
         return scoreB - scoreA;
-      }
-    );
+      });
 
-    return sorted[0];
+    return sorted[0] || null;
   }, [stations]);
 
   const availableStations = useMemo(() => {
@@ -788,6 +813,7 @@ function Home() {
                     <strong>
                       🔌{" "}
                       {recommendedStation.connectorType ||
+                        recommendedStation.connectors?.[0] ||
                         "CCS2"}
                     </strong>
                   </div>

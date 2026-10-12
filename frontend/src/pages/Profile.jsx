@@ -33,6 +33,7 @@ function getBatteryCapacity(vehicle) {
 
 function getVehicleRange(vehicle) {
   return Number(
+    vehicle?.maxRange ||
     vehicle?.range ||
     vehicle?.rangeKm ||
     vehicle?.range_km ||
