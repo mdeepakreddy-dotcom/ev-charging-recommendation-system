@@ -1,0 +1,204 @@
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  box-sizing: border-box;
+  background: #f2f7f4;
+}
+
+.register-container {
+  width: min(100%, 500px);
+  padding: 42px;
+  box-sizing: border-box;
+  border: 1px solid #dce9e3;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 24px 70px rgba(24, 65, 48, 0.1);
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.register-icon {
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+  border-radius: 16px;
+  background: #e8f7ef;
+  font-size: 27px;
+}
+
+.register-eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  color: #168256;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.register-header h1 {
+  margin: 0 0 8px;
+  color: #193d30;
+  font-size: 27px;
+}
+
+.register-header p {
+  margin: 0;
+  color: #75867f;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.register-form {
+  display: grid;
+  gap: 17px;
+}
+
+.register-input-group {
+  display: grid;
+  gap: 7px;
+}
+
+.register-input-group label {
+  color: #294a3e;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.register-input-group input {
+  width: 100%;
+  min-height: 45px;
+  box-sizing: border-box;
+  padding: 0 13px;
+  border: 1px solid #d6e3dd;
+  border-radius: 10px;
+  outline: none;
+  background: #fbfdfc;
+  color: #23483a;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.register-input-group input:focus {
+  border-color: #32a271;
+  background: #ffffff;
+  box-shadow:
+    0 0 0 3px rgba(50, 162, 113, 0.1);
+}
+
+.register-password-wrapper {
+  position: relative;
+}
+
+.register-password-wrapper input {
+  padding-right: 48px;
+}
+
+.register-password-wrapper button {
+  position: absolute;
+  top: 50%;
+  right: 7px;
+  width: 35px;
+  height: 35px;
+  transform: translateY(-50%);
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.register-password-wrapper button:hover {
+  background: #edf5f1;
+}
+
+.register-error {
+  padding: 11px 13px;
+  border: 1px solid #f0cccc;
+  border-radius: 9px;
+  background: #fff3f3;
+  color: #a13d3d;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.register-submit-button {
+  min-height: 46px;
+  margin-top: 2px;
+  border: none;
+  border-radius: 10px;
+  background: #147b52;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.register-submit-button:hover:not(:disabled) {
+  background: #0e6643;
+}
+
+.register-submit-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.register-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 24px;
+  color: #75867f;
+  font-size: 12px;
+}
+
+.register-login button {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #147b52;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.register-login button:hover {
+  text-decoration: underline;
+}
+
+.register-security {
+  margin-top: 20px;
+  padding: 11px;
+  border-radius: 9px;
+  background: #f3f8f5;
+  color: #71847b;
+  font-size: 10px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+@media (max-width: 520px) {
+  .register-page {
+    padding: 15px;
+  }
+
+  .register-container {
+    padding: 28px 20px;
+    border-radius: 17px;
+  }
+
+  .register-header h1 {
+    font-size: 23px;
+  }
+}

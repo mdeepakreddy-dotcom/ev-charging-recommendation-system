@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "brand": "Tata",
+    "model": "Nexon EV",
+    "batteryCapacity": 40.5,
+    "maxRange": 218,
+    "connectorType": "CCS2",
+    "maxChargingSpeed": 50
+  },
+  {
+    "id": 2,
+    "brand": "Tata",
+    "model": "Punch EV",
+    "batteryCapacity": 35,
+    "maxRange": 315,
+    "connectorType": "CCS2",
+    "maxChargingSpeed": 50
+  },
+  {
+    "id": 3,
+    "brand": "MG",
+    "model": "ZS EV",
+    "batteryCapacity": 50.3,
+    "maxRange": 461,
+    "connectorType": "CCS2",
+    "maxChargingSpeed": 50
+  },
+  {
+    "id": 4,
+    "brand": "MG",
+    "model": "Comet EV",
+    "batteryCapacity": 17.3,
+    "maxRange": 230,
+    "connectorType": "CCS2",
+    "maxChargingSpeed": 3.3
+  },
+  {
+    "id": 5,
+    "brand": "Hyundai",
+    "model": "Ioniq 5",
+    "batteryCapacity": 72.6,
+    "maxRange": 631,
+    "connectorType": "CCS2",
+    "maxChargingSpeed": 350
+  },
+  {
+    "id": 6,
+    "brand": "Mahindra",
+    "model": "XUV400 EV",
+    "batteryCapacity": 39.4,
+    "maxRange": 375,
+    "connectorType": "CCS2",
+    "maxChargingSpeed": 50
+  }
+]
