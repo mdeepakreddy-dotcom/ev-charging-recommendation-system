@@ -7,9 +7,15 @@ const db = require("./database");
 // JWT SECRET
 // --------------------------------------------------
 
-const JWT_SECRET =
-  process.env.JWT_SECRET ||
-  "ev-smartcharge-development-secret";
+require("dotenv").config({
+  path: require("path").join(__dirname, ".env")
+});
+
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET must be configured in the environment.");
+}
 
 // --------------------------------------------------
 // CREATE USER
