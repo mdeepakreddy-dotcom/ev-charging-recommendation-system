@@ -59,16 +59,17 @@ The chatbot uses retrieval over the station catalog and an OpenAI-compatible cha
 
 ## Deploy the frontend (Netlify)
 
-1. In Netlify, import the GitHub repository (or use the manual deploy flow).
-2. Set the base directory to `frontend`, the build command to `npm run build`, and the publish directory to `dist`.
-3. Add the frontend environment variable **before building**:
+1. In Netlify, import the GitHub repository. The checked-in root `netlify.toml` configures the `frontend` base directory, build command, and `dist` publish directory.
+2. Add the frontend environment variable **before the first build** in Netlify's site environment settings:
 
    ```text
    VITE_API_URL=https://<render-service>.onrender.com/api
    ```
 
-4. Trigger a fresh Netlify build. For manual deploy, run `npm run build` from `frontend` and drag the resulting `frontend/dist` folder into Netlify's deploy area. The `public/_redirects` file supports React Router routes on refresh.
-5. Set the Netlify site name to the desired project name, then ensure Render's `CORS_ALLOWED_ORIGINS` contains the resulting exact `https://<site-name>.netlify.app` origin. Redeploy the Render service if its CORS setting changed.
+3. Trigger a fresh Netlify build. For a manual deploy, run `npm run build` from `frontend` and drag the resulting `frontend/dist` folder into Netlify's deploy area. The `public/_redirects` file supports React Router routes on refresh.
+4. Set the Netlify site name to the desired project name, then ensure Render's `CORS_ALLOWED_ORIGINS` contains the resulting exact `https://<site-name>.netlify.app` origin. Redeploy the Render service if its CORS setting changed.
+
+The Render API URL and Netlify site name are created by their respective providers, so enter them in provider settings after those services exist. Do not commit database passwords, JWT secrets, or AI provider keys.
 
 ## Build checks
 
