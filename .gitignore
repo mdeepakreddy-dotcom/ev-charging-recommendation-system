@@ -8,3 +8,9 @@ dist/
 *.db
 *.sqlite
 *.sqlite3
+# SQLite database and temporary files
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
