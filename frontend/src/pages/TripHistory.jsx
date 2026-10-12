@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./TripHistory.css";
+import { API_BASE_URL } from "../services/config";
 
-const API_BASE_URL = "http://localhost:3000/api";
 const TOKEN_KEY = "evSmartChargeToken";
 
 function formatDate(dateValue) {

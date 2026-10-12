@@ -18,6 +18,7 @@ import TripHistory from "./pages/TripHistory";
 
 import Login from "./components/Login";
 import Register from "./components/Register";
+import ChatAssistant from "./components/ChatAssistant";
 
 import { useAuth } from "./context/AuthContext";
 
@@ -103,6 +104,8 @@ function App() {
 
   return (
     <BrowserRouter>
+
+      <ChatAssistant />
 
       <Routes>
 

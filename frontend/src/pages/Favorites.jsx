@@ -7,12 +7,9 @@ import React, {
 import { Link } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
+import { API_BASE_URL } from "../services/config";
 
 import "./Favorites.css";
-
-
-const API_BASE_URL =
-  "http://localhost:3000/api";
 
 const TOKEN_KEY =
   "evSmartChargeToken";

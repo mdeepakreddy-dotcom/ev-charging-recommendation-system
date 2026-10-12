@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Navbar from "../components/Navbar";
+import { API_BASE_URL } from "../services/config";
 import "./ChargingCalculator.css";
 
-const API_URL = "http://localhost:3000/api";
+const API_URL = API_BASE_URL;
 
 function ChargingCalculator() {
   const [vehicles, setVehicles] = useState([]);

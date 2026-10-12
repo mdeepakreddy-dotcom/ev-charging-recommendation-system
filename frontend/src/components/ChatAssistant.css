@@ -1,0 +1,143 @@
+.chat-assistant {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 200;
+  font-family: inherit;
+}
+
+.chat-launcher {
+  width: 58px;
+  height: 58px;
+  border: 0;
+  border-radius: 50%;
+  color: #092619;
+  background: #45dc96;
+  box-shadow: 0 12px 32px #10251d38;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.chat-panel {
+  width: min(370px, calc(100vw - 32px));
+  height: min(490px, calc(100vh - 112px));
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #dce9e2;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 18px 60px #10251d2e;
+}
+
+.chat-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  color: #f2fff8;
+  background: #202a26;
+}
+
+.chat-panel-header div,
+.chat-message {
+  display: grid;
+  gap: 4px;
+}
+
+.chat-panel-header span {
+  color: #b4c8bd;
+  font-size: 12px;
+}
+
+.chat-panel-header button {
+  border: 0;
+  color: #fff;
+  background: transparent;
+  font-size: 25px;
+}
+
+.chat-messages {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.chat-empty,
+.chat-loading,
+.chat-error {
+  color: #687a70;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.chat-message {
+  max-width: 88%;
+  align-self: flex-start;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f0f5f2;
+  color: #26392f;
+}
+
+.chat-message.user {
+  align-self: flex-end;
+  background: #dff9eb;
+}
+
+.chat-message p {
+  margin: 0;
+  white-space: pre-wrap;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.chat-message small {
+  color: #64796e;
+  font-size: 11px;
+}
+
+.chat-error {
+  color: #b42318;
+}
+
+.chat-form {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid #e8efeb;
+}
+
+.chat-form input {
+  min-width: 0;
+  flex: 1;
+  border: 1px solid #dce5df;
+  border-radius: 10px;
+  padding: 10px 12px;
+  outline-color: #35c986;
+}
+
+.chat-form button {
+  border: 0;
+  border-radius: 10px;
+  padding: 0 14px;
+  color: #092619;
+  background: #45dc96;
+  font-weight: 700;
+}
+
+.chat-form button:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+
+@media (max-width: 520px) {
+  .chat-assistant {
+    right: 16px;
+    bottom: 16px;
+  }
+}

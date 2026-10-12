@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 import "./Profile.css";
+import { API_BASE_URL } from "../services/config";
 
 
 const VEHICLE_STORAGE_KEY =
@@ -112,7 +113,7 @@ function Profile() {
         setLoadingVehicles(true);
 
         const response = await fetch(
-          "http://localhost:3000/api/vehicles"
+          `${API_BASE_URL}/vehicles`
         );
 
         if (!response.ok) {

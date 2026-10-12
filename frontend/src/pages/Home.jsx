@@ -3,8 +3,9 @@ import { NavLink } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 import { useAuth } from "../context/AuthContext";
+import { API_BASE_URL } from "../services/config";
 
-const API_URL = "http://localhost:3000/api";
+const API_URL = API_BASE_URL;
 
 function Home() {
   const { user } = useAuth();

@@ -4,13 +4,12 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { API_BASE_URL } from "../services/config";
 
 const AuthContext = createContext(null);
 
 const TOKEN_KEY = "evSmartChargeToken";
 const USER_KEY = "evSmartChargeUser";
-
-const API_BASE_URL = "http://localhost:3000/api";
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {

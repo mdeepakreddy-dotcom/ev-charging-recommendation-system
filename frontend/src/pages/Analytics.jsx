@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Analytics.css";
-
-const API_BASE_URL = "http://localhost:3000/api";
+import { API_BASE_URL } from "../services/config";
 
 function Analytics() {
   const [stations, setStations] = useState([]);

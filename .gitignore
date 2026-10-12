@@ -5,6 +5,7 @@
 !.env.example
 dist/
 **/dist/
+**/target/
 *.db
 *.sqlite
 *.sqlite3

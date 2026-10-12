@@ -10,11 +10,12 @@ import {
 import L from "leaflet";
 
 import Navbar from "../components/Navbar";
+import { API_BASE_URL } from "../services/config";
 import "./Trips.css";
 
 import "leaflet/dist/leaflet.css";
 
-const API_URL = "http://localhost:3000/api";
+const API_URL = API_BASE_URL;
 const TOKEN_KEY = "evSmartChargeToken";
 
 delete L.Icon.Default.prototype._getIconUrl;
