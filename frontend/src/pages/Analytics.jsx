@@ -74,7 +74,8 @@ function Analytics() {
     const chargingSpeeds = stations
       .map((station) =>
         Number(
-          station.chargingPower ??
+          station.chargingSpeed ??
+            station.chargingPower ??
             station.maxPower ??
             station.power ??
             0
@@ -170,6 +171,8 @@ function Analytics() {
 
     stations.forEach((station) => {
       let connector =
+        station.connectors ||
+        station.connectorTypes ||
         station.connectorType ||
         station.connector ||
         "Unknown";
