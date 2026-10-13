@@ -163,21 +163,50 @@ public class ApiController {
         if (query.isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Location search text is required.");
         }
-        JsonNode result;
+        JsonNode photonResponse;
         try {
-            result = restClient.get()
-                    .uri(uri -> uri.scheme("https").host("nominatim.openstreetmap.org")
-                            .path("/search").queryParam("format", "json").queryParam("limit", 5)
-                            .queryParam("addressdetails", 1).queryParam("q", query).build())
+            photonResponse = restClient.get()
+                    .uri(uri -> uri.scheme("https").host("photon.komoot.io")
+                            .path("/api/").queryParam("limit", 5).queryParam("q", query).build())
                     .header("User-Agent", "EV-SmartCharge/1.0")
                     .retrieve().body(JsonNode.class);
-        } catch (RestClientException exception) {
-            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY,
-                    "Location search service is unavailable.", exception);
+        } catch (RestClientException photonException) {
+            return Map.of("success", true, "results", nominatimFallback(query, photonException));
         }
+        List<Map<String, Object>> results = photonResults(photonResponse);
+        if (results.isEmpty()) {
+            results = nominatimFallback(query, null);
+        }
+        return Map.of("success", true, "results", results);
+    }
+
+    private List<Map<String, Object>> nominatimFallback(String query, RestClientException photonException) {
+        try {
+            return nominatimResults(query);
+        } catch (RestClientException nominatimException) {
+            if (photonException != null) {
+                photonException.addSuppressed(nominatimException);
+            }
+            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY,
+                    "Location search services are unavailable.",
+                    photonException == null ? nominatimException : photonException);
+        }
+    }
+
+    private JsonNode searchNominatim(String query) {
+        return restClient.get()
+                .uri(uri -> uri.scheme("https").host("nominatim.openstreetmap.org")
+                        .path("/search").queryParam("format", "json").queryParam("limit", 5)
+                        .queryParam("addressdetails", 1).queryParam("q", query).build())
+                .header("User-Agent", "EV-SmartCharge/1.0")
+                .retrieve().body(JsonNode.class);
+    }
+
+    private List<Map<String, Object>> nominatimResults(String query) {
+        JsonNode response = searchNominatim(query);
         List<Map<String, Object>> results = new ArrayList<>();
-        if (result != null && result.isArray()) {
-            for (JsonNode item : result) {
+        if (response != null && response.isArray()) {
+            for (JsonNode item : response) {
                 String displayName = item.path("display_name").asText();
                 String name = item.path("name").asText("");
                 if (name.isBlank()) name = displayName.split(",")[0];
@@ -186,7 +215,47 @@ public class ApiController {
                         "displayName", displayName));
             }
         }
-        return Map.of("success", true, "results", results);
+        return results;
+    }
+
+    private List<Map<String, Object>> photonResults(JsonNode response) {
+        List<Map<String, Object>> results = new ArrayList<>();
+        JsonNode features = response == null ? null : response.path("features");
+        if (features != null && features.isArray()) {
+            for (JsonNode feature : features) {
+                JsonNode coordinates = feature.path("geometry").path("coordinates");
+                if (!coordinates.isArray() || coordinates.size() < 2
+                        || !coordinates.get(0).isNumber() || !coordinates.get(1).isNumber()) {
+                    continue;
+                }
+                JsonNode properties = feature.path("properties");
+                String name = properties.path("name").asText("");
+                if (name.isBlank()) {
+                    name = properties.path("city").asText("");
+                }
+                if (name.isBlank()) {
+                    name = properties.path("county").asText("");
+                }
+                if (name.isBlank()) {
+                    continue;
+                }
+                List<String> displayParts = new ArrayList<>();
+                displayParts.add(name);
+                for (String part : List.of(
+                        properties.path("state").asText(""),
+                        properties.path("country").asText(""))) {
+                    if (!part.isBlank() && !displayParts.contains(part)) {
+                        displayParts.add(part);
+                    }
+                }
+                results.add(Map.of(
+                        "latitude", coordinates.get(1).asDouble(),
+                        "longitude", coordinates.get(0).asDouble(),
+                        "name", name,
+                        "displayName", String.join(", ", displayParts)));
+            }
+        }
+        return results;
     }
 
     @GetMapping("/route")

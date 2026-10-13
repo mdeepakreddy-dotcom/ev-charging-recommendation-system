@@ -10,6 +10,7 @@ backend/      Spring Boot REST API; PostgreSQL on Aiven; Dockerfile for Render
 ```
 
 The checked-in station and vehicle catalog is reference data, not a live IoT feed. Station availability and pricing shown in the demo should not be treated as real-time.
+Trip planning uses the OpenStreetMap-based Photon geocoder, with Nominatim as a fallback, and OSRM for road routes. These public services can have availability or rate limits.
 
 ## Run locally
 
